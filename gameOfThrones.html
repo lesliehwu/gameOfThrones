@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<style>
+			p{
+				width:100px;
+				height:100px;
+				display:inline-block;
+				text-align:center;
+				margin:40px;
+				padding:50px;
+				font-weight:bold;
+				background-size:cover;
+				background-position:center;
+				font-size:20px;
+			}
+
+			#stark{
+				border: thick solid lightgreen;
+				color:tan;
+				background-image:url("gameofthrones/stark.jpg");
+			}
+
+			#targaryen{
+				border: thick solid black;
+				color:red;
+				background-image:url("gameofthrones/targaryen.jpg");
+			}
+
+			#lannister{
+				border: thick solid red;
+				color:gold;
+				background-image:url("gameofthrones/lannister.jpg");
+			}
+
+			#baratheon{
+				border: thick solid goldenrod;
+				color:#101010;
+				background-image:url("gameofthrones/baratheon.png");
+			}
+
+			#houseDetails{
+				width:800px;
+				height:300px;
+				border: thick solid black;
+				margin-left:15%;
+			}
+
+			fieldset legend{
+				font-size:20px;
+			}
+
+			li{
+				list-style:none;
+				margin-left:0px;
+				padding-left:0px;
+				font-size:18px;
+			}
+
+			#houseName{
+				margin-top:20px;
+			}
+
+			#houseWords{
+				margin-top:20px;
+			}
+
+			#houseTitles{
+				margin-top:100px;
+			}
+		</style>
+		<script>
+			$(document).ready(function(){
+				var starkNumber = 362;
+				var targaryenNumber = 378;
+				var lannisterNumber = 230;
+				var baratheonNumber = 16;
+				var theURL = "https://www.anapioficeandfire.com/api/houses/";
+				var theTitles = "";
+
+				function listingTitles(){
+					$(this).click(function(){
+						$.get(theURL,function(res){
+							for (var i = 0; i < res.titles.length; i++){
+								theTitles += res.titles[i];
+								theTitles += ", ";
+							};
+							theTitles = theTitles.substring(0,theTitles.length-2);
+						});
+					});
+				};
+
+				function gettingInfo(){
+					$(this).click(function(){
+						$.get(theURL,function(res){
+							$("#houseName").append(res.name);
+							$("#houseWords").append(res.words);
+							$("#houseTitles").append(theTitles);
+						});
+					});
+				};
+				
+				$("#stark").click(function(){
+					theURL += starkNumber;
+					listingTitles();
+					gettingInfo();
+				});
+
+				$("#targaryen").click(function(){
+					theURL += targaryenNumber;
+					listingTitles();
+					gettingInfo();
+				});
+
+				$("#lannister").click(function(){
+					theURL += lannisterNumber;
+					listingTitles();
+					gettingInfo();
+				});
+
+				$("#baratheon").click(function(){
+					theURL += baratheonNumber;
+					listingTitles();
+					gettingInfo();
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<p id="stark">House Stark</p>
+		<p id="targaryen">House Targaryen</p>
+		<p id="lannister">House Lannister</p>
+		<p id="baratheon">House Baratheon</p>
+		<fieldset id="houseDetails">
+			<legend>House Details</legend>
+			<ul>
+				<li id="houseName">Name: </li>
+				<li id="houseWords">Words: </li>
+				<li id="houseTitles">Titles: </li>
+			</ul>
+		</fieldset>
+	</body>
+</html>
